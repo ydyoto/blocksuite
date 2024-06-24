@@ -1,6 +1,5 @@
 import type { BlockSpec } from '@blocksuite/block-std';
 
-import { AIChatBlockSpec } from '../ai-chat-block/ai-chat-spec.js';
 import { EdgelessTextBlockSpec } from '../edgeless-text/edgeless-text-spec.js';
 import { FrameBlockSpec } from '../frame-block/frame-spec.js';
 import {
@@ -18,7 +17,6 @@ export const EdgelessEditorBlockSpecs: BlockSpec[] = [
   EdgelessSurfaceRefBlockSpec,
   FrameBlockSpec,
   EdgelessTextBlockSpec,
-  AIChatBlockSpec,
 ];
 
 export const PreviewEdgelessEditorBlockSpecs: BlockSpec[] = [

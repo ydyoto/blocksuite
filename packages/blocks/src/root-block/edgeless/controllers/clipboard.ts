@@ -1079,6 +1079,7 @@ export class EdgelessClipboardController extends PageClipboard {
         block,
         this.std.view
       )?.parentElement;
+      console.log('blockElement', blockElement);
       const blockPortalSelector = block.flavour.replace(
         'affine:',
         '.edgeless-block-portal-'
@@ -1373,7 +1374,7 @@ export class EdgelessClipboardController extends PageClipboard {
   ) {
     const blocksLen = blocks.length;
     const shapesLen = shapes.length;
-
+    console.log('blocksLen', blocksLen);
     if (blocksLen + shapesLen === 0) return;
     const canvas = await this.toCanvas(blocks, shapes);
     assertExists(canvas);

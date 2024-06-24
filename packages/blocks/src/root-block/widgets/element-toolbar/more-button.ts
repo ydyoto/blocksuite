@@ -506,11 +506,16 @@ export class EdgelessMoreButton extends WithDisposable(LitElement) {
         break;
       }
       case 'copy-as-png': {
-        const { notes, frames, shapes, images } = splitElements(
+        const { notes, frames, shapes, images, aiChats } = splitElements(
           this.selection.selectedElements
         );
         this.slots.copyAsPng.emit({
-          blocks: [...notes, ...removeContainedFrames(frames), ...images],
+          blocks: [
+            ...notes,
+            ...removeContainedFrames(frames),
+            ...images,
+            ...aiChats,
+          ],
           shapes,
         });
         break;

@@ -5,6 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { html } from 'lit/static-html.js';
 
+import type { AIChatBlockModel } from '../../ai-chat-block/ai-chat-model.js';
 import type { AttachmentBlockModel } from '../../attachment-block/attachment-model.js';
 import type { BookmarkBlockModel } from '../../bookmark-block/bookmark-model.js';
 import type { EmbedFigmaModel } from '../../embed-figma-block/embed-figma-model.js';
@@ -41,7 +42,8 @@ export class SurfaceRefGenericBlockPortal extends WithDisposable(
     | EmbedLinkedDocModel
     | EmbedSyncedDocModel
     | EmbedHtmlModel
-    | EmbedLoomModel;
+    | EmbedLoomModel
+    | AIChatBlockModel;
 
   @property({ attribute: false })
   accessor renderModel!: (model: BlockModel) => TemplateResult;

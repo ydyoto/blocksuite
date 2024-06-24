@@ -263,7 +263,6 @@ export class EdgelessRootBlockComponent extends BlockElement<
       slots.copyAsPng.on(({ blocks, shapes }) => {
         if (!canCopyAsPng) return;
         canCopyAsPng = false;
-
         this.clipboardController
           .copyAsPng(blocks, shapes)
           .then(() => toast(this.host, 'Copied to clipboard'))

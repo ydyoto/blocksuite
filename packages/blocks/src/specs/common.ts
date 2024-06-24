@@ -1,5 +1,6 @@
 import type { BlockSpec } from '@blocksuite/block-std';
 
+import { AIChatBlockSpec } from '../ai-chat-block/ai-chat-spec.js';
 import { AttachmentBlockSpec } from '../attachment-block/attachment-spec.js';
 import { BookmarkBlockSpec } from '../bookmark-block/bookmark-spec.js';
 import { CodeBlockSpec } from '../code-block/code-block-spec.js';
@@ -36,4 +37,5 @@ export const CommonFirstPartyBlockSpecs: BlockSpec[] = [
   EmbedHtmlBlockSpec,
   EmbedSyncedDocBlockSpec,
   EmbedLinkedDocBlockSpec,
+  AIChatBlockSpec,
 ];
