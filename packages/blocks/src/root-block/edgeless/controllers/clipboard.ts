@@ -165,6 +165,8 @@ export class EdgelessClipboardController extends PageClipboard {
       this.surface.edgeless.service.frame
     );
 
+    console.log('elements: ', elements);
+
     // when note active, handle copy like page mode
     if (surfaceSelection[0] && surfaceSelection[0].editing) {
       // use build-in copy handler in rich-text when copy in surface text element
@@ -824,6 +826,24 @@ export class EdgelessClipboardController extends PageClipboard {
     return embedLoomIds;
   }
 
+  private _createAIChatBlocks(aiChats: BlockSnapshot[]) {
+    const aiChatIds = aiChats.map(({ props }) => {
+      const { xywh, items, scale } = props;
+
+      const aiChatId = this.host.service.addBlock(
+        'affine:ai-chat',
+        {
+          xywh,
+          scale,
+          items,
+        },
+        this.surface.model.id
+      );
+      return aiChatId;
+    });
+    return aiChatIds;
+  }
+
   private _emitSelectionChangeAfterPaste(
     canvasElementIds: string[],
     blockIds: string[]
@@ -1237,6 +1257,10 @@ export class EdgelessClipboardController extends PageClipboard {
       data => data.flavour === 'affine:embed-loom'
     );
 
+    const aiChatSnapshots = blockRawData.filter(
+      data => data.flavour === 'affine:ai-chat'
+    );
+
     // map old id to new id to rebuild connector's source and target
     const oldIdToNewIdMap = new Map<string, string>();
 
@@ -1266,6 +1290,7 @@ export class EdgelessClipboardController extends PageClipboard {
     );
     const embedHtmlIds = this._createHtmlEmbedBlocks(embedHtmlSnapshots);
     const embedLoomIds = this._createLoomEmbedBlocks(embedLoomSnapshots);
+    const aiChatIds = this._createAIChatBlocks(aiChatSnapshots);
 
     const blockModels = [
       ...noteIds,
@@ -1281,6 +1306,7 @@ export class EdgelessClipboardController extends PageClipboard {
       ...embedSyncedDocIds,
       ...embedHtmlIds,
       ...embedLoomIds,
+      ...aiChatIds,
     ].flatMap(
       id => this.host.doc.getBlock(id)?.model ?? []
     ) as BlockSuite.EdgelessBlockModelType[];
