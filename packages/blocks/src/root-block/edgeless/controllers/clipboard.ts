@@ -165,8 +165,6 @@ export class EdgelessClipboardController extends PageClipboard {
       this.surface.edgeless.service.frame
     );
 
-    console.log('elements: ', elements);
-
     // when note active, handle copy like page mode
     if (surfaceSelection[0] && surfaceSelection[0].editing) {
       // use build-in copy handler in rich-text when copy in surface text element
