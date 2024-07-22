@@ -1,1 +1,1 @@
-export { EdgelessBlockModel } from '@blocksuite/block-std/edgeless';
+export { BlockElementModel } from '@blocksuite/block-std/edgeless';

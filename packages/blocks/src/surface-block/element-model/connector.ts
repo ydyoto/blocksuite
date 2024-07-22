@@ -28,8 +28,8 @@ import {
 } from '../utils/math-utils.js';
 import { Polyline } from '../utils/polyline.js';
 import {
+  type ElementHitTestOptions,
   type IBaseProps,
-  type IHitTestOptions,
   type SerializedElement,
   SurfaceElementModel,
   SurfaceLocalModel,
@@ -254,7 +254,7 @@ export class ConnectorElementModel extends SurfaceElementModel<ConnectorElementP
   override hitTest(
     x: number,
     y: number,
-    options?: IHitTestOptions | undefined
+    options?: ElementHitTestOptions | undefined
   ): boolean {
     const currentPoint: IVec = [x, y];
 

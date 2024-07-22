@@ -1,7 +1,7 @@
 import type { EditorHost } from '@blocksuite/block-std';
 import type {
-  IEdgelessElement,
-  IHitTestOptions,
+  Element,
+  ElementHitTestOptions,
 } from '@blocksuite/block-std/edgeless';
 import type { IVec, SerializedXYWH, XYWH } from '@blocksuite/global/utils';
 import type { Y } from '@blocksuite/store';
@@ -11,7 +11,7 @@ import { Bound } from '@blocksuite/global/utils';
 import { PointLocation } from '@blocksuite/global/utils';
 import { DisposableGroup } from '@blocksuite/global/utils';
 
-import type { EdgelessBlockModel } from '../../root-block/edgeless/edgeless-block-model.js';
+import type { BlockElementModel } from '../../root-block/edgeless/edgeless-block-model.js';
 import type { SurfaceBlockModel } from '../surface-model.js';
 import type { OmitFunctionsAndKeysAndReadOnly } from './utility-type.js';
 
@@ -34,7 +34,7 @@ import {
   yfield,
 } from './decorators.js';
 
-export type { IHitTestOptions } from '@blocksuite/block-std/edgeless';
+export type { ElementHitTestOptions } from '@blocksuite/block-std/edgeless';
 
 export type ModelToProps<
   T extends SurfaceElementModel,
@@ -59,7 +59,7 @@ export type SerializedElement = Record<string, unknown> & {
 };
 
 export abstract class SurfaceElementModel<Props extends IBaseProps = IBaseProps>
-  implements IEdgelessElement
+  implements Element
 {
   protected _disposable = new DisposableGroup();
 
@@ -148,7 +148,12 @@ export abstract class SurfaceElementModel<Props extends IBaseProps = IBaseProps>
     return new PointLocation(rotatePoint, tangent);
   }
 
-  hitTest(x: number, y: number, _: IHitTestOptions, __: EditorHost): boolean {
+  hitTest(
+    x: number,
+    y: number,
+    _: ElementHitTestOptions,
+    __: EditorHost
+  ): boolean {
     return this.elementBound.isPointInBound([x, y]);
   }
 
@@ -413,7 +418,7 @@ export abstract class SurfaceGroupLikeModel<
     for (const key of this.childIds) {
       const element =
         this.surface.getElementById(key) ||
-        (this.surface.doc.getBlockById(key) as EdgelessBlockModel);
+        (this.surface.doc.getBlockById(key) as BlockElementModel);
 
       element && elements.push(element);
     }

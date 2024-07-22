@@ -18,7 +18,7 @@ import { BlockModel } from '@blocksuite/store';
 
 import type { EditorHost } from '../view/index.js';
 
-export interface IHitTestOptions {
+export interface ElementHitTestOptions {
   expand?: number;
 
   /**
@@ -33,7 +33,7 @@ export interface IHitTestOptions {
   zoom?: number;
 }
 
-export interface IEdgelessElement {
+export interface Element {
   id: string;
   xywh: SerializedXYWH;
   /**
@@ -60,17 +60,17 @@ export interface IEdgelessElement {
   hitTest(
     x: number,
     y: number,
-    options: IHitTestOptions,
+    options: ElementHitTestOptions,
     host: EditorHost
   ): boolean;
   boxSelect(bound: Bound): boolean;
 }
 
-export class EdgelessBlockModel<
-    Props extends EdgelessSelectableProps = EdgelessSelectableProps,
+export class BlockElementModel<
+    Props extends SelectableElementProps = SelectableElementProps,
   >
   extends BlockModel<Props>
-  implements IEdgelessElement
+  implements Element
 {
   private _externalXYWH: SerializedXYWH | undefined = undefined;
 
@@ -121,7 +121,12 @@ export class EdgelessBlockModel<
     return new PointLocation(rotatePoint, tangent);
   }
 
-  hitTest(x: number, y: number, _: IHitTestOptions, __: EditorHost): boolean {
+  hitTest(
+    x: number,
+    y: number,
+    _: ElementHitTestOptions,
+    __: EditorHost
+  ): boolean {
     const bound = Bound.deserialize(this.xywh);
     return bound.isPointInBound([x, y], 0);
   }
@@ -153,7 +158,7 @@ export class EdgelessBlockModel<
     this._externalXYWH = xywh;
   }
 
-  get group(): IEdgelessElement | null {
+  get group(): Element | null {
     // FIXME: make surface a official supported block
     const surface = this.doc
       .getBlocks()
@@ -166,7 +171,7 @@ export class EdgelessBlockModel<
     return surface.getGroup(this.id) ?? null;
   }
 
-  get groups(): IEdgelessElement[] {
+  get groups(): Element[] {
     // FIXME: make surface a official supported block
     const surface = this.doc
       .getBlocks()
@@ -180,17 +185,17 @@ export class EdgelessBlockModel<
   }
 }
 
-export type EdgelessSelectableProps = {
+export type SelectableElementProps = {
   xywh: SerializedXYWH;
   index: string;
 };
 
 export function selectable<
-  Props extends EdgelessSelectableProps,
+  Props extends SelectableElementProps,
   T extends Constructor<BlockModel<Props>> = Constructor<BlockModel<Props>>,
 >(SuperClass: T) {
   if (SuperClass === BlockModel) {
-    return EdgelessBlockModel as unknown as typeof EdgelessBlockModel<Props>;
+    return BlockElementModel as unknown as typeof BlockElementModel<Props>;
   } else {
     let currentClass = SuperClass;
 
@@ -205,8 +210,8 @@ export function selectable<
       throw new Error('The SuperClass is not a subclass of BlockModel');
     }
 
-    Object.setPrototypeOf(currentClass.prototype, EdgelessBlockModel.prototype);
+    Object.setPrototypeOf(currentClass.prototype, BlockElementModel.prototype);
   }
 
-  return SuperClass as unknown as typeof EdgelessBlockModel<Props>;
+  return SuperClass as unknown as typeof BlockElementModel<Props>;
 }

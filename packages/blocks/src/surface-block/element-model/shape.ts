@@ -18,8 +18,8 @@ import {
   TextVerticalAlign,
 } from '../consts.js';
 import {
+  type ElementHitTestOptions,
   type IBaseProps,
-  type IHitTestOptions,
   SurfaceElementModel,
 } from './base.js';
 import { local, yfield } from './decorators.js';
@@ -92,7 +92,7 @@ export class ShapeElementModel extends SurfaceElementModel<ShapeProps> {
     return shapeMethods[this.shapeType].getRelativePointLocation(point, this);
   }
 
-  override hitTest(x: number, y: number, options: IHitTestOptions) {
+  override hitTest(x: number, y: number, options: ElementHitTestOptions) {
     return shapeMethods[this.shapeType].hitTest.call(this, x, y, {
       ...options,
       ignoreTransparent: options.ignoreTransparent ?? true,

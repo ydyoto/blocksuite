@@ -18,7 +18,7 @@ import {
   GroupElementModel,
   MindmapElementModel,
 } from '../../../surface-block/index.js';
-import { EdgelessBlockModel } from '../edgeless-block-model.js';
+import { BlockElementModel } from '../edgeless-block-model.js';
 import { isFrameBlock } from '../utils/query.js';
 
 export function getCloneElements(
@@ -59,7 +59,7 @@ export async function serializeElement(
   elements: BlockSuite.EdgelessModelType[],
   job: Job
 ) {
-  if (element instanceof EdgelessBlockModel) {
+  if (element instanceof BlockElementModel) {
     const snapshot = await job.blockToSnapshot(element);
     if (!snapshot) {
       return;
