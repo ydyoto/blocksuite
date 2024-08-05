@@ -12,3 +12,4 @@ export const FORMAT_BLOCK_SUPPORT_FLAVOURS: BlockSuite.Flavour[] = [
 export const FORMAT_NATIVE_SUPPORT_FLAVOURS: BlockSuite.Flavour[] = [
   'affine:database',
 ];
+export const ALLOW_FORMAT_BAR_NATIVE_ELEMENT_CLASS = 'allow-format-bar';

@@ -173,35 +173,21 @@ export class AffineFormatBarWidget extends WidgetComponent {
       })
     );
     this.disposables.addFromEvent(document, 'selectionchange', () => {
-      const databaseSelection = this.host.selection.find('database');
-      if (!databaseSelection) {
+      const range = this.nativeRange;
+      if (range && !range.collapsed) {
+        if (
+          range.commonAncestorContainer.parentElement?.closest(
+            '.allow-format-bar'
+          )
+        ) {
+          this._displayType = 'native';
+          this.requestUpdate();
+        }
         return;
-      }
-
-      const reset = () => {
+      } else {
         this.reset();
         this.requestUpdate();
-      };
-      const viewSelection = databaseSelection.viewSelection;
-      // check table selection
-      if (
-        viewSelection.type === 'table' &&
-        (viewSelection.selectionType !== 'area' || !viewSelection.isEditing)
-      )
-        return reset();
-      // check kanban selection
-      if (
-        (viewSelection.type === 'kanban' &&
-          viewSelection.selectionType !== 'cell') ||
-        !viewSelection.isEditing
-      )
-        return reset();
-
-      const range = this.nativeRange;
-
-      if (!range || range.collapsed) return reset();
-      this._displayType = 'native';
-      this.requestUpdate();
+      }
     });
   }
 
@@ -322,7 +308,6 @@ export class AffineFormatBarWidget extends WidgetComponent {
       this.doc.blockCollection
     );
     if (readonly) return false;
-
     if (
       this.displayType === 'block' &&
       this._selectedBlocks?.[0]?.flavour === 'affine:surface-ref'
@@ -347,7 +332,6 @@ export class AffineFormatBarWidget extends WidgetComponent {
     if (this.displayType === 'none' || this._dragging) {
       return false;
     }
-
     // if the selection is on an embed (ex. linked page), we should not display the format bar
     if (this.displayType === 'text' && this._selectedBlocks.length === 1) {
       const isEmbed = () => {
@@ -389,7 +373,7 @@ export class AffineFormatBarWidget extends WidgetComponent {
     if (aiPanel && aiPanel?.state !== 'hidden') {
       return false;
     }
-
+    console.log('native');
     return true;
   }
 
@@ -521,7 +505,7 @@ export class AffineFormatBarWidget extends WidgetComponent {
     }
 
     const items = ConfigRenderer(this);
-
+    console.log(items);
     return html`
       <editor-toolbar class="${AFFINE_FORMAT_BAR_WIDGET}">
         ${items}

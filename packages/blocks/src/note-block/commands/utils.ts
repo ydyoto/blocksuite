@@ -1,10 +1,10 @@
 import type {
+  BlockComponent,
   Chain,
   Command,
   CommandKeyToData,
   InitCommandCtx,
 } from '@blocksuite/block-std';
-import type { BlockComponent } from '@blocksuite/block-std';
 
 import { assertExists } from '@blocksuite/global/utils';
 import {
@@ -21,10 +21,8 @@ import type {
 
 import {
   FORMAT_BLOCK_SUPPORT_FLAVOURS,
-  FORMAT_NATIVE_SUPPORT_FLAVOURS,
   FORMAT_TEXT_SUPPORT_FLAVOURS,
 } from '../../_common/configs/text-format/consts.js';
-import { BLOCK_ID_ATTR } from '../../_common/consts.js';
 
 function isActive(std: BlockSuite.Std, key: keyof AffineTextAttributes) {
   const [result] = std.command.chain().isTextStyleActive({ key }).run();
@@ -193,29 +191,27 @@ function handleCurrentSelection<
         return next(result);
       }),
     // native selection, corresponding to `formatNative` command
-    chain.inline<InlineOut>((ctx, next) => {
-      const selectedInlineEditors = Array.from<InlineRootElement>(
-        ctx.std.host.querySelectorAll(`[${INLINE_ROOT_ATTR}]`)
-      )
-        .filter(el => {
-          const selection = document.getSelection();
-          if (!selection || selection.rangeCount === 0) return false;
-          const range = selection.getRangeAt(0);
-
-          return range.intersectsNode(el);
-        })
-        .filter(el => {
-          const block = el.closest<BlockComponent>(`[${BLOCK_ID_ATTR}]`);
-          if (block) {
-            return FORMAT_NATIVE_SUPPORT_FLAVOURS.includes(
-              block.model.flavour as BlockSuite.Flavour
-            );
-          }
-          return false;
-        })
-        .map((el): AffineInlineEditor => el.inlineEditor);
-
-      const result = handler('native', selectedInlineEditors);
+    chain.inline<InlineOut>((_ctx, next) => {
+      const selection = document.getSelection();
+      if (!selection || selection.rangeCount === 0) return false;
+      const range = selection.getRangeAt(0);
+      const root = range.commonAncestorContainer.parentElement;
+      if (!root) {
+        return false;
+      }
+      const editors = Array.from(
+        root.querySelectorAll<InlineRootElement>(`[${INLINE_ROOT_ATTR}]`)
+      );
+      if (editors.length === 0) {
+        const editor = root.closest<InlineRootElement>(`[${INLINE_ROOT_ATTR}]`);
+        if (editor) {
+          editors.push(editor);
+        }
+      }
+      const result = handler(
+        'native',
+        editors.map(v => v.inlineEditor)
+      );
       if (!result) return false;
       if (result === true) {
         return next();

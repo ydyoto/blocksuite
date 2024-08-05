@@ -317,7 +317,7 @@ export class RichTextCellEditing extends BaseCellRenderer<Text> {
         this.topContenteditableElement?.host
           ? getViewportElement(this.topContenteditableElement.host)
           : null}
-      class="affine-database-rich-text inline-editor"
+      class="affine-database-rich-text inline-editor allow-format-bar"
     ></rich-text>`;
   }
 

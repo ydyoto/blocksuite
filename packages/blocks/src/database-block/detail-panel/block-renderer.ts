@@ -113,7 +113,7 @@ export class BlockRenderer
         .attributeRenderer=${this.attributeRenderer}
         .embedChecker=${this.inlineManager.embedChecker}
         .markdownShortcutHandler=${this.inlineManager.markdownShortcutHandler}
-        class="inline-editor"
+        class="inline-editor allow-format-bar"
       ></rich-text>
     `;
   }
