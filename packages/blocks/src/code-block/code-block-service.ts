@@ -1,3 +1,7 @@
+import {
+  type AffineTextAttributes,
+  InlineManager,
+} from '@blocksuite/affine-components/rich-text';
 import { type CodeBlockModel, ColorScheme } from '@blocksuite/affine-model';
 import { ThemeObserver } from '@blocksuite/affine-shared/theme';
 import { BlockService } from '@blocksuite/block-std';
@@ -9,9 +13,6 @@ import {
 } from 'shiki';
 import getWasm from 'shiki/wasm';
 
-import type { AffineTextAttributes } from '../_common/inline/presets/affine-inline-specs.js';
-
-import { InlineManager } from '../_common/inline/inline-manager.js';
 import { codeBlockInlineSpecs } from './highlight/code-block-inline-specs.js';
 import {
   CODE_BLOCK_DEFAULT_DARK_THEME,

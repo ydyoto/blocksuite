@@ -1,3 +1,4 @@
+import type { AffineTextAttributes } from '@blocksuite/affine-components/rich-text';
 import type { ThemedToken } from 'shiki';
 
 import { ShadowlessElement } from '@blocksuite/block-std';
@@ -5,8 +6,6 @@ import { type DeltaInsert, ZERO_WIDTH_SPACE } from '@blocksuite/inline';
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-
-import type { AffineTextAttributes } from '../../_common/inline/presets/affine-inline-specs.js';
 
 @customElement('affine-code-unit')
 export class AffineCodeUnit extends ShadowlessElement {

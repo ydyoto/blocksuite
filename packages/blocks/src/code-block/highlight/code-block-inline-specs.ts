@@ -1,12 +1,10 @@
-import { html } from 'lit';
-import { z } from 'zod';
-
-import type { InlineSpecs } from '../../_common/inline/inline-manager.js';
-
 import {
   type AffineTextAttributes,
+  type InlineSpecs,
   affineInlineSpecsWithoutReference,
-} from '../../_common/inline/presets/affine-inline-specs.js';
+} from '@blocksuite/affine-components/rich-text';
+import { html } from 'lit';
+import { z } from 'zod';
 
 export const codeBlockInlineSpecs: InlineSpecs<AffineTextAttributes>[] = [
   {
