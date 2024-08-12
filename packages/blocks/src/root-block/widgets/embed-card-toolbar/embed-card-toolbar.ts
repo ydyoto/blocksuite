@@ -1,3 +1,5 @@
+import type { RootBlockModel } from '@blocksuite/affine-model';
+
 import {
   CaptionIcon,
   CenterPeekIcon,
@@ -12,6 +14,13 @@ import {
   RefreshIcon,
   SmallArrowDownIcon,
 } from '@blocksuite/affine-components/icons';
+import { isPeekable, peek } from '@blocksuite/affine-components/peek';
+import { toast } from '@blocksuite/affine-components/toast';
+import {
+  type Action,
+  renderActions,
+  renderToolbarSeparator,
+} from '@blocksuite/affine-components/toolbar';
 import {
   type BookmarkBlockModel,
   BookmarkStyles,
@@ -30,7 +39,6 @@ import { join } from 'lit/directives/join.js';
 import { repeat } from 'lit/directives/repeat.js';
 
 import type { EmbedCardStyle } from '../../../_common/types.js';
-import type { RootBlockModel } from '../../root-model.js';
 import type { EmbedOptions } from '../../root-service.js';
 import type { RootBlockComponent } from '../../types.js';
 
@@ -42,17 +50,6 @@ import {
   type EmbedToolbarModel,
   isEmbedCardBlockComponent,
 } from '../../../_common/components/embed-card/type.js';
-import { isPeekable, peek } from '../../../_common/components/index.js';
-import { toast } from '../../../_common/components/toast.js';
-import '../../../_common/components/toolbar/icon-button.js';
-import '../../../_common/components/toolbar/menu-button.js';
-import '../../../_common/components/toolbar/separator.js';
-import { renderToolbarSeparator } from '../../../_common/components/toolbar/separator.js';
-import '../../../_common/components/toolbar/toolbar.js';
-import {
-  type Action,
-  renderActions,
-} from '../../../_common/components/toolbar/utils.js';
 import { getEmbedCardIcons } from '../../../_common/utils/url.js';
 import {
   isAttachmentBlock,

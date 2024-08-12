@@ -72,6 +72,7 @@ function isDepInclude(
 const chunkGroups = {
   framework: [
     require.resolve('@blocksuite/block-std'),
+    require.resolve('@blocksuite/block-std/gfx'),
     require.resolve('@blocksuite/global'),
     require.resolve('@blocksuite/global/utils'),
     require.resolve('@blocksuite/global/env'),
@@ -79,6 +80,16 @@ const chunkGroups = {
     require.resolve('@blocksuite/inline'),
     require.resolve('@blocksuite/store'),
     require.resolve('@blocksuite/sync'),
+  ],
+  affine: [
+    require.resolve('@blocksuite/affine-model'),
+    require.resolve('@blocksuite/affine-components/hover'),
+    require.resolve('@blocksuite/affine-components/icons'),
+    require.resolve('@blocksuite/affine-components/peek'),
+    require.resolve('@blocksuite/affine-components/portal'),
+    require.resolve('@blocksuite/affine-components/rich-text'),
+    require.resolve('@blocksuite/affine-components/toast'),
+    require.resolve('@blocksuite/affine-components/toolbar'),
   ],
   datefns: [path.dirname(require.resolve('date-fns'))],
   dompurify: [path.dirname(require.resolve('dompurify'))],
@@ -160,7 +171,7 @@ export default ({ mode }) => {
       target: 'es2018',
     },
     build: {
-      target: 'ES2022',
+      target: 'es2022',
       sourcemap: true,
       rollupOptions: {
         cache: false,

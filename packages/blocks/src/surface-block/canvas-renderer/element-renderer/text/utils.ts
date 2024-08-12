@@ -2,20 +2,20 @@ import type {
   FontFamily,
   FontStyle,
   FontWeight,
+  TextElementModel,
 } from '@blocksuite/affine-model';
 import type { Bound } from '@blocksuite/global/utils';
 import type { Y } from '@blocksuite/store';
 
-import type { TextElementModel } from '../../../element-model/text.js';
+import {
+  getPointsFromBoundsWithRotation,
+  rotatePoints,
+} from '@blocksuite/global/utils';
 
 import {
   getFontFacesByFontFamily,
   wrapFontFamily,
 } from '../../../utils/font.js';
-import {
-  getPointsFromBoundsWithRotation,
-  rotatePoints,
-} from '../../../utils/math-utils.js';
 
 export type TextDelta = {
   insert: string;

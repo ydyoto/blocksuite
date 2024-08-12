@@ -1,3 +1,4 @@
+import type { AffineTextAttributes } from '@blocksuite/affine-components/rich-text';
 import type { DeltaInsert } from '@blocksuite/inline';
 import type {
   FromBlockSnapshotPayload,
@@ -36,8 +37,6 @@ import {
   createHighlighterCore,
 } from 'shiki';
 import { unified } from 'unified';
-
-import type { AffineTextAttributes } from '../inline/presets/affine-inline-specs.js';
 
 import { normalizeGetter } from '../../code-block/code-block-service.js';
 import {

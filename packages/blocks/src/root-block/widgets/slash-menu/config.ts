@@ -1,3 +1,7 @@
+import type {
+  FrameBlockModel,
+  ParagraphBlockModel,
+} from '@blocksuite/affine-model';
 import type { BlockModel } from '@blocksuite/store';
 import type { TemplateResult } from 'lit';
 
@@ -22,21 +26,19 @@ import {
   YesterdayIcon,
 } from '@blocksuite/affine-components/icons';
 import {
-  NoteBlockModel,
-  type ParagraphBlockModel,
-} from '@blocksuite/affine-model';
+  REFERENCE_NODE,
+  textFormatConfigs,
+} from '@blocksuite/affine-components/rich-text';
+import { toast } from '@blocksuite/affine-components/toast';
+import { NoteBlockModel } from '@blocksuite/affine-model';
 import { Slice, Text } from '@blocksuite/store';
 
 import type { DataViewBlockComponent } from '../../../data-view-block/index.js';
-import type { FrameBlockModel } from '../../../frame-block/frame-model.js';
 import type { RootBlockComponent } from '../../types.js';
 import type { AffineLinkedDocWidget } from '../linked-doc/index.js';
 
 import { toggleEmbedCardCreateModal } from '../../../_common/components/embed-card/modal/embed-card-create-modal.js';
-import { toast } from '../../../_common/components/toast.js';
 import { textConversionConfigs } from '../../../_common/configs/text-conversion.js';
-import { textFormatConfigs } from '../../../_common/configs/text-format/config.js';
-import { REFERENCE_NODE } from '../../../_common/inline/presets/nodes/consts.js';
 import {
   clearMarksOnDiscontinuousInput,
   createDefaultDoc,
@@ -233,12 +235,18 @@ export const defaultSlashMenuConfig: SlashMenuConfig = {
       })),
 
     // ---------------------------------------------------------
-    { groupName: 'Page' },
+    {
+      groupName: 'Page',
+      showWhen: ({ model }) =>
+        model.doc.schema.flavourSchemaMap.has('affine:embed-linked-doc'),
+    },
     {
       name: 'New Doc',
       description: 'Start a new document.',
       icon: NewDocIcon,
       tooltip: slashMenuToolTips['New Doc'],
+      showWhen: ({ model }) =>
+        model.doc.schema.flavourSchemaMap.has('affine:embed-linked-doc'),
       action: ({ rootComponent, model }) => {
         const newDoc = createDefaultDoc(rootComponent.doc.collection);
         insertContent(rootComponent.host, model, REFERENCE_NODE, {
@@ -255,10 +263,16 @@ export const defaultSlashMenuConfig: SlashMenuConfig = {
       icon: LinkedDocIcon,
       tooltip: slashMenuToolTips['Linked Doc'],
       alias: ['dual link'],
-      showWhen: ({ rootComponent }) => {
+      showWhen: ({ rootComponent, model }) => {
         const linkedDocWidgetEle =
           rootComponent.widgetComponents['affine-linked-doc-widget'];
         if (!linkedDocWidgetEle) return false;
+
+        const hasLinkedDocSchema = model.doc.schema.flavourSchemaMap.has(
+          'affine:embed-linked-doc'
+        );
+        if (!hasLinkedDocSchema) return false;
+
         if (!('showLinkedDocPopover' in linkedDocWidgetEle)) {
           console.warn(
             'You may not have correctly implemented the linkedDoc widget! "showLinkedDoc(model)" method not found on widget'

@@ -18,25 +18,12 @@ export {
   GRID_GAP_MIN,
 } from './consts.js';
 export { SurfaceElementModel } from './element-model/base.js';
-export { BrushElementModel } from './element-model/brush.js';
-export {
-  type Connection,
-  ConnectorElementModel,
-  ConnectorEndpoint,
-  ConnectorMode,
-  DEFAULT_FRONT_END_POINT_STYLE,
-  DEFAULT_REAR_END_POINT_STYLE,
-  type PointStyle,
-} from './element-model/connector.js';
-export { GroupElementModel } from './element-model/group.js';
 export { CanvasElementType } from './element-model/index.js';
 export {
   LayoutType,
   MindmapElementModel,
   MindmapStyle,
 } from './element-model/mindmap.js';
-export { ShapeElementModel } from './element-model/shape.js';
-export { TextElementModel } from './element-model/text.js';
 export * from './elements/index.js';
 export { ShapeType } from './elements/shape/consts.js';
 export {
@@ -45,13 +32,24 @@ export {
   MindmapSurfaceBlock,
   markdownToMindmap,
 } from './mini-mindmap/index.js';
-export { getStroke } from './perfect-freehand/getStroke.js';
 export { RoughCanvas } from './rough/canvas.js';
 export type { Options } from './rough/core.js';
 export { SurfaceBlockModel as SurfaceBlockModel } from './surface-model.js';
 export { AStarRunner } from './utils/a-star.js';
-export * from './utils/bound.js';
 export * from './utils/index.js';
+export {
+  BrushElementModel,
+  type Connection,
+  ConnectorElementModel,
+  ConnectorEndpoint,
+  ConnectorMode,
+  DEFAULT_FRONT_END_POINT_STYLE,
+  DEFAULT_REAR_END_POINT_STYLE,
+  GroupElementModel,
+  type PointStyle,
+  ShapeElementModel,
+  TextElementModel,
+} from '@blocksuite/affine-model';
 export {
   almostEqual,
   clamp,
@@ -59,6 +57,7 @@ export {
   getPointFromBoundsWithRotation,
   getPointsFromBoundsWithRotation,
   getQuadBoundsWithRotation,
+  getStroke,
   getSvgPathFromStroke,
   intersects,
   isOverlap,
@@ -74,7 +73,7 @@ export {
   sign,
   toDegree,
   toRadian,
-} from './utils/math-utils.js';
+} from '@blocksuite/global/utils';
 
 declare global {
   namespace BlockSuite {

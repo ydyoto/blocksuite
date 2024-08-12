@@ -1,7 +1,10 @@
+import type { RichText } from '@blocksuite/affine-components/rich-text';
 import type { CodeBlockModel } from '@blocksuite/affine-model';
 import type { BlockComponent } from '@blocksuite/block-std';
 import type { VLine } from '@blocksuite/inline';
 
+import '@blocksuite/affine-components/rich-text';
+import { toast } from '@blocksuite/affine-components/toast';
 import { getInlineRangeProvider } from '@blocksuite/block-std';
 import { noop } from '@blocksuite/global/utils';
 import {
@@ -25,13 +28,10 @@ import {
   bundledLanguagesInfo,
 } from 'shiki';
 
-import type { RichText } from '../_common/components/rich-text/rich-text.js';
 import type { CodeBlockService } from './code-block-service.js';
 
 import { CaptionedBlockComponent } from '../_common/components/captioned-block-component.js';
 import { bindContainerHotkey } from '../_common/components/rich-text/keymap/index.js';
-import '../_common/components/rich-text/rich-text.js';
-import { toast } from '../_common/components/toast.js';
 import { NOTE_SELECTOR } from '../_common/edgeless/note/consts.js';
 import { getViewportElement } from '../_common/utils/query.js';
 import { EdgelessRootBlockComponent } from '../root-block/edgeless/edgeless-root-block.js';

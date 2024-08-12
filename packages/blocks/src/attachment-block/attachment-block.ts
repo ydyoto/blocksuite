@@ -1,7 +1,9 @@
+import { HoverController } from '@blocksuite/affine-components/hover';
 import {
   AttachmentIcon16,
   getAttachmentFileIcons,
 } from '@blocksuite/affine-components/icons';
+import { toast } from '@blocksuite/affine-components/toast';
 import {
   type AttachmentBlockModel,
   AttachmentBlockStyles,
@@ -20,11 +22,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import type { EdgelessRootService } from '../root-block/index.js';
 import type { AttachmentBlockService } from './attachment-service.js';
 
-import {
-  CaptionedBlockComponent,
-  HoverController,
-  toast,
-} from '../_common/components/index.js';
+import { CaptionedBlockComponent } from '../_common/components/index.js';
 import { bindContainerHotkey } from '../_common/components/rich-text/keymap/container.js';
 import { EMBED_CARD_HEIGHT, EMBED_CARD_WIDTH } from '../_common/consts.js';
 import { getEmbedCardIcons } from '../_common/utils/url.js';

@@ -19,11 +19,24 @@
     "@blocksuite/icons": "^2.1.62",
     "@blocksuite/inline": "workspace:*",
     "@blocksuite/store": "workspace:*",
-    "lit": "^3.1.4"
+    "@blocksuite/affine-model": "workspace:*",
+    "@blocksuite/affine-shared": "workspace:*",
+    "@floating-ui/dom": "^1.6.8",
+    "@lit-labs/preact-signals": "^1.0.2",
+    "@lit/context": "^1.1.2",
+    "@toeverything/theme": "^1.0.2",
+    "lit": "^3.1.4",
+    "zod": "^3.23.8"
   },
   "exports": {
     ".": "./src/index.ts",
-    "./icons": "./src/icons/index.ts"
+    "./icons": "./src/icons/index.ts",
+    "./peek": "./src/peek/index.ts",
+    "./portal": "./src/portal/index.ts",
+    "./hover": "./src/hover/index.ts",
+    "./toolbar": "./src/toolbar/index.ts",
+    "./toast": "./src/toast/index.ts",
+    "./rich-text": "./src/rich-text/index.ts"
   },
   "publishConfig": {
     "access": "public",
@@ -37,6 +50,30 @@
       "./icons": {
         "types": "./dist/icons/index.d.ts",
         "import": "./dist/icons/index.js"
+      },
+      "./peek": {
+        "types": "./dist/peek/index.d.ts",
+        "import": "./dist/peek/index.js"
+      },
+      "./portal": {
+        "types": "./dist/portal/index.d.ts",
+        "import": "./dist/portal/index.js"
+      },
+      "./hover": {
+        "types": "./dist/hover/index.d.ts",
+        "import": "./dist/hover/index.js"
+      },
+      "./toolbar": {
+        "types": "./dist/toolbar/index.d.ts",
+        "import": "./dist/toolbar/index.js"
+      },
+      "./toast": {
+        "types": "./dist/toast/index.d.ts",
+        "import": "./dist/toast/index.js"
+      },
+      "./rich-text": {
+        "types": "./dist/rich-text/index.d.ts",
+        "import": "./dist/rich-text/index.js"
       }
     }
   },

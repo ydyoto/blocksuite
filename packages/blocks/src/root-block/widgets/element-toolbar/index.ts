@@ -9,33 +9,26 @@ import type {
   EmbedLoomModel,
   EmbedSyncedDocModel,
   EmbedYoutubeModel,
+  FrameBlockModel,
   ImageBlockModel,
   NoteBlockModel,
+  RootBlockModel,
 } from '@blocksuite/affine-model';
 
 import { ConnectorCWithArrowIcon } from '@blocksuite/affine-components/icons';
+import { renderToolbarSeparator } from '@blocksuite/affine-components/toolbar';
 import { ThemeObserver } from '@blocksuite/affine-shared/theme';
-import {
-  atLeastNMatches,
-  groupBy,
-  pickValues,
-  requestConnectedFrame,
-} from '@blocksuite/affine-shared/utils';
+import { requestConnectedFrame } from '@blocksuite/affine-shared/utils';
 import { WidgetComponent } from '@blocksuite/block-std';
+import { atLeastNMatches, groupBy, pickValues } from '@blocksuite/global/utils';
 import { type TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { join } from 'lit/directives/join.js';
 
-import type { FrameBlockModel } from '../../../frame-block/frame-model.js';
 import type { MindmapElementModel } from '../../../surface-block/element-model/mindmap.js';
 import type { ConnectorToolController } from '../../edgeless/controllers/tools/connector-tool.js';
 import type { EdgelessRootBlockComponent } from '../../edgeless/edgeless-root-block.js';
-import type { RootBlockModel } from '../../root-model.js';
 
-import '../../../_common/components/toolbar/icon-button.js';
-import '../../../_common/components/toolbar/menu-button.js';
-import { renderToolbarSeparator } from '../../../_common/components/toolbar/separator.js';
-import '../../../_common/components/toolbar/toolbar.js';
 import {
   ConnectorMode,
   GroupElementModel,

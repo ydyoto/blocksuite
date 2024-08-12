@@ -19,6 +19,12 @@ import {
   PaletteIcon,
   SmallArrowDownIcon,
 } from '@blocksuite/affine-components/icons';
+import { isPeekable, peek } from '@blocksuite/affine-components/peek';
+import { toast } from '@blocksuite/affine-components/toast';
+import {
+  type Action,
+  renderToolbarSeparator,
+} from '@blocksuite/affine-components/toolbar';
 import { BookmarkStyles } from '@blocksuite/affine-model';
 import { getHostName } from '@blocksuite/affine-shared/utils';
 import { WithDisposable } from '@blocksuite/block-std';
@@ -28,7 +34,6 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { join } from 'lit/directives/join.js';
 import { repeat } from 'lit/directives/repeat.js';
 
-import type { Action } from '../../../_common/components/toolbar/utils.js';
 import type { EmbedCardStyle } from '../../../_common/types.js';
 import type { BookmarkBlockComponent } from '../../../bookmark-block/index.js';
 import type { EmbedFigmaBlockComponent } from '../../../embed-figma-block/index.js';
@@ -41,12 +46,6 @@ import type { EdgelessRootBlockComponent } from '../../edgeless/edgeless-root-bl
 import type { EmbedOptions } from '../../root-service.js';
 
 import { toggleEmbedCardEditModal } from '../../../_common/components/embed-card/modal/embed-card-edit-modal.js';
-import { isPeekable, peek } from '../../../_common/components/index.js';
-import { toast } from '../../../_common/components/toast.js';
-import '../../../_common/components/toolbar/icon-button.js';
-import '../../../_common/components/toolbar/menu-button.js';
-import '../../../_common/components/toolbar/separator.js';
-import { renderToolbarSeparator } from '../../../_common/components/toolbar/separator.js';
 import {
   EMBED_CARD_HEIGHT,
   EMBED_CARD_WIDTH,

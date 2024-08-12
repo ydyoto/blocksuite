@@ -1,11 +1,18 @@
+import type { RootBlockModel } from '@blocksuite/affine-model';
 import type { BlockComponent } from '@blocksuite/block-std';
 import type { BlockModel } from '@blocksuite/store';
 
+import {
+  type PeekViewService,
+  getSelectedPeekableBlocksCommand,
+  peekSelectedBlockCommand,
+} from '@blocksuite/affine-components/peek';
 import {
   type EmbedCardStyle,
   type NoteBlockModel,
   NoteDisplayMode,
 } from '@blocksuite/affine-model';
+import { registerCommands } from '@blocksuite/affine-shared/commands';
 import { ThemeObserver } from '@blocksuite/affine-shared/theme';
 import { matchFlavours } from '@blocksuite/affine-shared/utils';
 import { BlockService } from '@blocksuite/block-std';
@@ -13,7 +20,6 @@ import { Bound, Vec } from '@blocksuite/global/utils';
 import { assertExists } from '@blocksuite/global/utils';
 
 import type { EdgelessRootBlockComponent } from './edgeless/edgeless-root-block.js';
-import type { RootBlockModel } from './root-model.js';
 import type { RootBlockComponent } from './types.js';
 
 import {
@@ -23,10 +29,7 @@ import {
 import {
   type DocModeService,
   type NotificationService,
-  type PeekViewService,
   createDocModeService,
-  getSelectedPeekableBlocksCommand,
-  peekSelectedBlockCommand,
 } from '../_common/components/index.js';
 import {
   DEFAULT_IMAGE_PROXY_ENDPOINT,
@@ -43,23 +46,6 @@ import { getRootByEditorHost } from '../_common/utils/index.js';
 import { asyncFocusRichText } from '../_common/utils/selection.js';
 import { CommunityCanvasTextFonts } from '../surface-block/consts.js';
 import { EditPropsStore } from '../surface-block/managers/edit-session.js';
-import {
-  copySelectedModelsCommand,
-  deleteSelectedModelsCommand,
-  deleteTextCommand,
-  draftSelectedModelsCommand,
-  formatBlockCommand,
-  formatNativeCommand,
-  formatTextCommand,
-  getBlockIndexCommand,
-  getBlockSelectionsCommand,
-  getImageSelectionsCommand,
-  getNextBlockCommand,
-  getPrevBlockCommand,
-  getSelectedBlocksCommand,
-  getSelectedModelsCommand,
-  getTextSelectionCommand,
-} from './commands/index.js';
 import { FontLoader } from './font-loader/font-loader.js';
 
 export type EmbedOptions = {
@@ -362,22 +348,8 @@ export class RootService extends BlockService<RootBlockModel> {
   override mounted() {
     super.mounted();
 
+    registerCommands(this.std);
     this.std.command
-      .add('getBlockIndex', getBlockIndexCommand)
-      .add('getNextBlock', getNextBlockCommand)
-      .add('getPrevBlock', getPrevBlockCommand)
-      .add('getSelectedBlocks', getSelectedBlocksCommand)
-      .add('copySelectedModels', copySelectedModelsCommand)
-      .add('deleteSelectedModels', deleteSelectedModelsCommand)
-      .add('draftSelectedModels', draftSelectedModelsCommand)
-      .add('getSelectedModels', getSelectedModelsCommand)
-      .add('getBlockSelections', getBlockSelectionsCommand)
-      .add('getImageSelections', getImageSelectionsCommand)
-      .add('getTextSelection', getTextSelectionCommand)
-      .add('deleteText', deleteTextCommand)
-      .add('formatBlock', formatBlockCommand)
-      .add('formatNative', formatNativeCommand)
-      .add('formatText', formatTextCommand)
       .add('peekSelectedBlock', peekSelectedBlockCommand)
       .add('getSelectedPeekableBlocks', getSelectedPeekableBlocksCommand);
 

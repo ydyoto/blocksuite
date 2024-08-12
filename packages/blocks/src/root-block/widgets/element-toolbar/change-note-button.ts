@@ -8,6 +8,10 @@ import {
   SmallArrowDownIcon,
 } from '@blocksuite/affine-components/icons';
 import {
+  type EditorMenuButton,
+  renderToolbarSeparator,
+} from '@blocksuite/affine-components/toolbar';
+import {
   type ColorScheme,
   DEFAULT_NOTE_BACKGROUND_COLOR,
   NOTE_BACKGROUND_COLORS,
@@ -15,17 +19,15 @@ import {
   NoteDisplayMode,
   type StrokeStyle,
 } from '@blocksuite/affine-model';
-import { countBy, matchFlavours, maxBy } from '@blocksuite/affine-shared/utils';
+import { matchFlavours } from '@blocksuite/affine-shared/utils';
 import { WithDisposable } from '@blocksuite/block-std';
-import { Bound } from '@blocksuite/global/utils';
-import { assertExists } from '@blocksuite/global/utils';
+import { Bound, assertExists, countBy, maxBy } from '@blocksuite/global/utils';
 import { LitElement, type TemplateResult, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { join } from 'lit/directives/join.js';
 import { type Ref, createRef, ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 
-import type { EditorMenuButton } from '../../../_common/components/toolbar/menu-button.js';
 import type {
   EdgelessColorPickerButton,
   PickColorEvent,
@@ -33,10 +35,6 @@ import type {
 import type { ColorEvent } from '../../edgeless/components/panel/color-panel.js';
 import type { EdgelessRootBlockComponent } from '../../edgeless/edgeless-root-block.js';
 
-import '../../../_common/components/toolbar/icon-button.js';
-import '../../../_common/components/toolbar/menu-button.js';
-import '../../../_common/components/toolbar/separator.js';
-import { renderToolbarSeparator } from '../../../_common/components/toolbar/separator.js';
 import '../../edgeless/components/color-picker/index.js';
 import {
   packColor,

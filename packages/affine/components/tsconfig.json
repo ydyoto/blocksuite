@@ -18,6 +18,12 @@
     },
     {
       "path": "../../framework/inline"
+    },
+    {
+      "path": "../shared"
+    },
+    {
+      "path": "../model"
     }
   ]
 }

@@ -27,16 +27,20 @@
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
     "@types/sortablejs": "^1.15.8",
+    "lit": "^3.1.4",
     "minimatch": "^10.0.1",
     "zod": "^3.23.8"
   },
   "exports": {
     ".": "./src/index.ts",
+    "./selection": "./src/selection/index.ts",
     "./utils": "./src/utils/index.ts",
     "./consts": "./src/consts/index.ts",
     "./types": "./src/types/index.ts",
+    "./commands": "./src/commands/index.ts",
     "./mixins": "./src/mixins/index.ts",
-    "./theme": "./src/theme/index.ts"
+    "./theme": "./src/theme/index.ts",
+    "./styles": "./src/styles/index.ts"
   },
   "publishConfig": {
     "access": "public",
@@ -46,6 +50,10 @@
       ".": {
         "import": "./dist/index.js",
         "types": "./dist/index.d.ts"
+      },
+      "./selection": {
+        "types": "./dist/selection/index.d.ts",
+        "import": "./dist/selection/index.js"
       },
       "./utils": {
         "types": "./dist/utils/index.d.ts",
@@ -59,6 +67,10 @@
         "types": "./dist/types/index.d.ts",
         "import": "./dist/types/index.js"
       },
+      "./commands": {
+        "types": "./dist/commands/index.d.ts",
+        "import": "./dist/commands/index.js"
+      },
       "./mixins": {
         "types": "./dist/mixins/index.d.ts",
         "import": "./dist/mixins/index.js"
@@ -66,6 +78,10 @@
       "./theme": {
         "types": "./dist/theme/index.d.ts",
         "import": "./dist/theme/index.js"
+      },
+      "./styles": {
+        "types": "./dist/styles/index.d.ts",
+        "import": "./dist/styles/index.js"
       }
     }
   },

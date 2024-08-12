@@ -5,7 +5,7 @@ import type {
 } from '@blocksuite/block-std/gfx';
 import type { SerializedXYWH, XYWH } from '@blocksuite/global/utils';
 
-import { keys, last, pick } from '@blocksuite/affine-shared/utils';
+import { LocalConnectorElementModel } from '@blocksuite/affine-model';
 import {
   GfxGroupLikeElementModel,
   convert,
@@ -13,7 +13,13 @@ import {
   watch,
   yfield,
 } from '@blocksuite/block-std/gfx';
-import { assertType, deserializeXYWH } from '@blocksuite/global/utils';
+import {
+  assertType,
+  deserializeXYWH,
+  keys,
+  last,
+  pick,
+} from '@blocksuite/global/utils';
 import { DocCollection, type Y } from '@blocksuite/store';
 import { generateKeyBetween } from 'fractional-indexing';
 import { z } from 'zod';
@@ -30,7 +36,6 @@ import type {
 
 import { TextResizing } from '../consts.js';
 import { ConnectorPathGenerator } from '../managers/connector-manager.js';
-import { LocalConnectorElementModel } from './connector.js';
 import { LayoutType, layout } from './utils/mindmap/layout.js';
 import {
   MindmapStyle,

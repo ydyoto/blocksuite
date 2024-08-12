@@ -1,4 +1,9 @@
 import type {
+  AttachmentBlockProps,
+  ImageBlockProps,
+  RootBlockModel,
+} from '@blocksuite/affine-model';
+import type {
   GfxBlockComponent,
   SurfaceSelection,
 } from '@blocksuite/block-std';
@@ -6,12 +11,14 @@ import type { GfxViewportElement } from '@blocksuite/block-std/gfx';
 import type { IBound, IPoint, IVec } from '@blocksuite/global/utils';
 import type { BlockModel } from '@blocksuite/store';
 
-import {
-  type AttachmentBlockProps,
-  type ImageBlockProps,
-  NoteDisplayMode,
-} from '@blocksuite/affine-model';
+import { toast } from '@blocksuite/affine-components/toast';
+import { NoteDisplayMode } from '@blocksuite/affine-model';
 import { humanFileSize } from '@blocksuite/affine-shared/utils';
+import {
+  isTouchPadPinchEvent,
+  requestConnectedFrame,
+  requestThrottledConnectedFrame,
+} from '@blocksuite/affine-shared/utils';
 import { BlockComponent } from '@blocksuite/block-std';
 import { IS_WINDOWS } from '@blocksuite/global/env';
 import { serializeXYWH } from '@blocksuite/global/utils';
@@ -24,22 +31,17 @@ import { repeat } from 'lit/directives/repeat.js';
 import type { SurfaceBlockComponent } from '../../surface-block/surface-block.js';
 import type { SurfaceBlockModel } from '../../surface-block/surface-model.js';
 import type { FontLoader } from '../font-loader/font-loader.js';
-import type { RootBlockModel } from '../root-model.js';
 import type { EdgelessRootBlockWidgetName } from '../types.js';
 import type { EdgelessSelectedRect } from './components/rects/edgeless-selected-rect.js';
 import type { EdgelessRootService } from './edgeless-root-service.js';
 import type { EdgelessToolConstructor } from './services/tools-manager.js';
 import type { EdgelessTool } from './types.js';
 
-import { toast } from '../../_common/components/toast.js';
 import { EMBED_CARD_HEIGHT, EMBED_CARD_WIDTH } from '../../_common/consts.js';
 import {
   type Viewport,
   asyncFocusRichText,
   handleNativeRangeAtPoint,
-  isTouchPadPinchEvent,
-  requestConnectedFrame,
-  requestThrottledConnectedFrame,
 } from '../../_common/utils/index.js';
 import {
   setAttachmentUploaded,

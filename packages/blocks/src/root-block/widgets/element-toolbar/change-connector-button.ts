@@ -1,3 +1,9 @@
+import type {
+  ColorScheme,
+  ConnectorElementProps,
+  ConnectorLabelProps,
+} from '@blocksuite/affine-model';
+
 import {
   AddTextIcon,
   ConnectorCWithArrowIcon,
@@ -17,9 +23,10 @@ import {
   ScribbledStyleIcon,
   SmallArrowDownIcon,
 } from '@blocksuite/affine-components/icons';
-import { type ColorScheme, StrokeStyle } from '@blocksuite/affine-model';
-import { countBy, maxBy } from '@blocksuite/affine-shared/utils';
+import { renderToolbarSeparator } from '@blocksuite/affine-components/toolbar';
+import { StrokeStyle } from '@blocksuite/affine-model';
 import { WithDisposable } from '@blocksuite/block-std';
+import { countBy, maxBy } from '@blocksuite/global/utils';
 import { LitElement, type TemplateResult, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { choose } from 'lit/directives/choose.js';
@@ -28,19 +35,11 @@ import { repeat } from 'lit/directives/repeat.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 
-import type {
-  ConnectorElementProps,
-  ConnectorLabelProps,
-} from '../../../surface-block/element-model/connector.js';
 import type { PointStyle } from '../../../surface-block/index.js';
 import type { EdgelessColorPickerButton } from '../../edgeless/components/color-picker/button.js';
 import type { PickColorEvent } from '../../edgeless/components/color-picker/types.js';
 import type { EdgelessRootBlockComponent } from '../../edgeless/edgeless-root-block.js';
 
-import '../../../_common/components/toolbar/icon-button.js';
-import '../../../_common/components/toolbar/menu-button.js';
-import '../../../_common/components/toolbar/separator.js';
-import { renderToolbarSeparator } from '../../../_common/components/toolbar/separator.js';
 import { LineWidth } from '../../../_common/types.js';
 import {
   type ConnectorElementModel,

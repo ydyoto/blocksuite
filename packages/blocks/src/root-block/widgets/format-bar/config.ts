@@ -29,15 +29,15 @@ import {
   TextIcon,
   UnderlineIcon,
 } from '@blocksuite/affine-components/icons';
+import { createSimplePortal } from '@blocksuite/affine-components/portal';
+import { toast } from '@blocksuite/affine-components/toast';
+import { renderActions } from '@blocksuite/affine-components/toolbar';
 import { assertExists } from '@blocksuite/global/utils';
 import { Slice } from '@blocksuite/store';
 import { type TemplateResult, html } from 'lit';
 
 import type { AffineFormatBarWidget } from './format-bar.js';
 
-import { toast } from '../../../_common/components/index.js';
-import { createSimplePortal } from '../../../_common/components/portal.js';
-import { renderActions } from '../../../_common/components/toolbar/utils.js';
 import { DATABASE_CONVERT_WHITE_LIST } from '../../../_common/configs/quick-action/database-convert-view.js';
 import {
   convertSelectedBlocksToLinkedDoc,

@@ -1,12 +1,11 @@
-import type { ColorScheme } from '@blocksuite/affine-model';
+import type { BrushProps, ColorScheme } from '@blocksuite/affine-model';
 
-import { countBy, maxBy } from '@blocksuite/affine-shared/utils';
 import { WithDisposable } from '@blocksuite/block-std';
+import { countBy, maxBy } from '@blocksuite/global/utils';
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
-import type { BrushProps } from '../../../surface-block/element-model/brush.js';
 import type { BrushElementModel } from '../../../surface-block/index.js';
 import type { EdgelessColorPickerButton } from '../../edgeless/components/color-picker/button.js';
 import type { PickColorEvent } from '../../edgeless/components/color-picker/types.js';
@@ -14,9 +13,6 @@ import type { ColorEvent } from '../../edgeless/components/panel/color-panel.js'
 import type { LineWidthEvent } from '../../edgeless/components/panel/line-width-panel.js';
 import type { EdgelessRootBlockComponent } from '../../edgeless/edgeless-root-block.js';
 
-import '../../../_common/components/toolbar/icon-button.js';
-import '../../../_common/components/toolbar/menu-button.js';
-import '../../../_common/components/toolbar/separator.js';
 import { LineWidth } from '../../../_common/types.js';
 import {
   packColor,

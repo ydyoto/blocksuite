@@ -1,16 +1,24 @@
-import {
-  EdgelessModeIcon,
-  MoreVerticalIcon,
-  SmallArrowDownIcon,
-} from '@blocksuite/affine-components/icons';
+import type { SurfaceRefBlockModel } from '@blocksuite/affine-model';
+
+import { HoverController } from '@blocksuite/affine-components/hover';
 import {
   CaptionIcon,
   CenterPeekIcon,
   CopyIcon,
   DeleteIcon,
   DownloadIcon,
+  EdgelessModeIcon,
+  MoreVerticalIcon,
   OpenIcon,
+  SmallArrowDownIcon,
 } from '@blocksuite/affine-components/icons';
+import { isPeekable, peek } from '@blocksuite/affine-components/peek';
+import { toast } from '@blocksuite/affine-components/toast';
+import {
+  type Action,
+  renderActions,
+  renderToolbarSeparator,
+} from '@blocksuite/affine-components/toolbar';
 import { downloadBlob } from '@blocksuite/affine-shared/utils';
 import { WidgetComponent } from '@blocksuite/block-std';
 import { offset, shift } from '@floating-ui/dom';
@@ -19,23 +27,9 @@ import { customElement } from 'lit/decorators.js';
 import { join } from 'lit/directives/join.js';
 import { repeat } from 'lit/directives/repeat.js';
 
-import type {
-  SurfaceRefBlockComponent,
-  SurfaceRefBlockModel,
-} from '../../../surface-ref-block/index.js';
+import type { SurfaceRefBlockComponent } from '../../../surface-ref-block/index.js';
 import type { EdgelessRootPreviewBlockComponent } from '../../edgeless/edgeless-root-preview-block.js';
 
-import { HoverController } from '../../../_common/components/hover/controller.js';
-import { isPeekable, peek } from '../../../_common/components/peekable.js';
-import { toast } from '../../../_common/components/toast.js';
-import '../../../_common/components/toolbar/icon-button.js';
-import '../../../_common/components/toolbar/menu-button.js';
-import { renderToolbarSeparator } from '../../../_common/components/toolbar/separator.js';
-import '../../../_common/components/toolbar/toolbar.js';
-import {
-  type Action,
-  renderActions,
-} from '../../../_common/components/toolbar/utils.js';
 import { PAGE_HEADER_HEIGHT } from '../../../_common/consts.js';
 import { edgelessToBlob, writeImageBlobToClipboard } from './utils.js';
 

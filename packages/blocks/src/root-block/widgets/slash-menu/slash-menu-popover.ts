@@ -1,4 +1,7 @@
+import type { AffineInlineEditor } from '@blocksuite/affine-components/rich-text';
+
 import { ArrowDownIcon } from '@blocksuite/affine-components/icons';
+import { createLitPortal } from '@blocksuite/affine-components/portal';
 import {
   isControlledKeyboardEvent,
   isFuzzyMatch,
@@ -12,7 +15,6 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
-import type { AffineInlineEditor } from '../../../_common/inline/presets/affine-inline-specs.js';
 import type {
   SlashMenuActionItem,
   SlashMenuContext,
@@ -23,7 +25,6 @@ import type {
   SlashSubMenu,
 } from './config.js';
 
-import { createLitPortal } from '../../../_common/components/portal.js';
 import {
   cleanSpecifiedTail,
   createKeydownObserver,

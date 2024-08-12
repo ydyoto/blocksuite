@@ -1,3 +1,4 @@
+import type { SurfaceRefBlockModel } from '@blocksuite/affine-model';
 import type { BaseSelection, EditorHost } from '@blocksuite/block-std';
 import type { Doc } from '@blocksuite/store';
 
@@ -6,6 +7,7 @@ import {
   FrameIcon,
   MoreDeleteIcon,
 } from '@blocksuite/affine-components/icons';
+import { Peekable } from '@blocksuite/affine-components/peek';
 import { requestConnectedFrame } from '@blocksuite/affine-shared/utils';
 import { BlockComponent } from '@blocksuite/block-std';
 import { GfxBlockElementModel } from '@blocksuite/block-std/gfx';
@@ -23,10 +25,8 @@ import type { BlockCaptionEditor } from '../_common/components/block-caption.js'
 import type { FrameBlockComponent } from '../frame-block/frame-block.js';
 import type { EdgelessRootPreviewBlockComponent } from '../root-block/edgeless/edgeless-root-preview-block.js';
 import type { EdgelessRootService } from '../root-block/index.js';
-import type { SurfaceRefBlockModel } from './surface-ref-model.js';
 import type { SurfaceRefBlockService } from './surface-ref-service.js';
 
-import { Peekable } from '../_common/components/peekable.js';
 import { bindContainerHotkey } from '../_common/components/rich-text/keymap/container.js';
 import { SpecProvider } from '../specs/index.js';
 import {
