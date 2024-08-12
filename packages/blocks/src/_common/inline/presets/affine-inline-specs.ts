@@ -34,7 +34,7 @@ export const affineInlineSpecsWithoutReference: InlineSpecs<AffineTextAttributes
       match: delta => {
         return !!delta.attributes?.bold;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-text .delta=${delta}></affine-text>`;
       },
     },
@@ -44,7 +44,7 @@ export const affineInlineSpecsWithoutReference: InlineSpecs<AffineTextAttributes
       match: delta => {
         return !!delta.attributes?.italic;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-text .delta=${delta}></affine-text>`;
       },
     },
@@ -54,7 +54,7 @@ export const affineInlineSpecsWithoutReference: InlineSpecs<AffineTextAttributes
       match: delta => {
         return !!delta.attributes?.underline;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-text .delta=${delta}></affine-text>`;
       },
     },
@@ -64,7 +64,7 @@ export const affineInlineSpecsWithoutReference: InlineSpecs<AffineTextAttributes
       match: delta => {
         return !!delta.attributes?.strike;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-text .delta=${delta}></affine-text>`;
       },
     },
@@ -74,7 +74,7 @@ export const affineInlineSpecsWithoutReference: InlineSpecs<AffineTextAttributes
       match: delta => {
         return !!delta.attributes?.code;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-text .delta=${delta}></affine-text>`;
       },
     },
@@ -84,7 +84,7 @@ export const affineInlineSpecsWithoutReference: InlineSpecs<AffineTextAttributes
       match: delta => {
         return !!delta.attributes?.background;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-text .delta=${delta}></affine-text>`;
       },
     },
@@ -94,7 +94,7 @@ export const affineInlineSpecsWithoutReference: InlineSpecs<AffineTextAttributes
       match: delta => {
         return !!delta.attributes?.color;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-text .delta=${delta}></affine-text>`;
       },
     },
@@ -122,7 +122,7 @@ export function getAffineInlineSpecsWithReference(
       match: delta => {
         return !!delta.attributes?.reference;
       },
-      renderer: (delta, selected) => {
+      renderer: ({ delta, selected }) => {
         return html`<affine-reference
           .delta=${delta}
           .selected=${selected}
@@ -137,7 +137,7 @@ export function getAffineInlineSpecsWithReference(
       match: delta => {
         return !!delta.attributes?.link;
       },
-      renderer: delta => {
+      renderer: ({ delta }) => {
         return html`<affine-link .delta=${delta}></affine-link>`;
       },
     },

@@ -16,7 +16,8 @@ import type {
 } from '@blocksuite/store';
 import type { ElementContent, Root, Text } from 'hast';
 
-import { NoteDisplayMode } from '@blocksuite/affine-model';
+import { ColorScheme, NoteDisplayMode } from '@blocksuite/affine-model';
+import { ThemeObserver } from '@blocksuite/affine-shared/theme';
 import { getFilenameFromContentDisposition } from '@blocksuite/affine-shared/utils';
 import { sha } from '@blocksuite/global/utils';
 import {
@@ -31,20 +32,18 @@ import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
 import {
   type BundledLanguage,
-  type ThemedToken,
   bundledLanguagesInfo,
+  createHighlighterCore,
 } from 'shiki';
 import { unified } from 'unified';
 
 import type { AffineTextAttributes } from '../inline/presets/affine-inline-specs.js';
 
-import { isPlaintext } from '../../code-block/utils/code-languages.js';
-import { DARK_THEME, LIGHT_THEME } from '../../code-block/utils/consts.js';
-import { getHighLighter } from '../../code-block/utils/high-lighter.js';
+import { normalizeGetter } from '../../code-block/code-block-service.js';
 import {
-  highlightCache,
-  type highlightCacheKey,
-} from '../../code-block/utils/highlight-cache.js';
+  CODE_BLOCK_DEFAULT_DARK_THEME,
+  CODE_BLOCK_DEFAULT_LIGHT_THEME,
+} from '../../code-block/highlight/const.js';
 import {
   type HtmlAST,
   hastFlatNodes,
@@ -175,7 +174,6 @@ export class HtmlAdapter extends BaseAdapter<Html> {
     if (
       !rawLang ||
       typeof rawLang !== 'string' ||
-      isPlaintext(rawLang) ||
       // The rawLang should not be 'Text' here
       rawLang === 'Text' ||
       !bundledLanguagesInfo.map(({ id }) => id).includes(rawLang as string)
@@ -189,45 +187,44 @@ export class HtmlAdapter extends BaseAdapter<Html> {
     }
     const lang = rawLang as BundledLanguage;
 
-    const highlighter = await getHighLighter({
-      langs: [lang],
-      themes: [LIGHT_THEME, DARK_THEME],
+    const highlighter = await createHighlighterCore();
+    await highlighter.loadLanguage(import(`shiki/languages/${lang}.json`));
+    const theme =
+      ThemeObserver.instance.mode$.value === ColorScheme.Dark
+        ? CODE_BLOCK_DEFAULT_DARK_THEME
+        : CODE_BLOCK_DEFAULT_LIGHT_THEME;
+    await highlighter.loadTheme(theme);
+    const themeKey = (await normalizeGetter(theme)).name;
+
+    const code = deltas.reduce((acc, cur) => {
+      return acc + cur.insert;
+    }, '');
+    const tokens = highlighter.codeToTokensBase(code, {
+      lang,
+      theme: themeKey,
     });
-    const cacheKey: highlightCacheKey = `${delta.insert}-${rawLang}-light`;
-    const cache = highlightCache.get(cacheKey);
 
-    let tokens: Omit<ThemedToken, 'offset'>[];
-    if (cache) {
-      tokens = cache;
-    } else {
-      tokens = highlighter.codeToTokensBase(delta.insert, { lang }).reduce(
-        (acc, cur, index) => {
-          if (index === 0) {
-            return cur;
-          }
-
-          return [...acc, { content: '\n', color: 'inherit' }, ...cur];
-        },
-        [] as Omit<ThemedToken, 'offset'>[]
-      );
-      highlightCache.set(cacheKey, tokens);
-    }
-
-    return tokens.map(token => {
+    return tokens.map(lineTokens => {
       return {
         type: 'element',
         tagName: 'span',
-        properties: {
-          style: `word-wrap: break-word; color: ${token.color};`,
-        },
-        children: [
-          {
-            type: 'text',
-            value: token.content,
-          },
-        ],
-      } as ElementContent;
-    });
+        children: lineTokens.map(token => {
+          return {
+            type: 'element',
+            tagName: 'span',
+            properties: {
+              style: `color: ${token.color};`,
+            },
+            children: [
+              {
+                type: 'text',
+                value: token.content,
+              },
+            ],
+          } as ElementContent;
+        }),
+      };
+    }) as ElementContent[];
   };
 
   private _hastToDelta = (
