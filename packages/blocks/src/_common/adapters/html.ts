@@ -15,7 +15,7 @@ import type {
   DocSnapshot,
   SliceSnapshot,
 } from '@blocksuite/store';
-import type { ElementContent, Root, Text } from 'hast';
+import type { Root } from 'hast';
 
 import { ColorScheme, NoteDisplayMode } from '@blocksuite/affine-model';
 import { ThemeObserver } from '@blocksuite/affine-shared/theme';
@@ -31,18 +31,9 @@ import { ASTWalker, BaseAdapter } from '@blocksuite/store';
 import { collapseWhiteSpace } from 'collapse-white-space';
 import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
-import {
-  type BundledLanguage,
-  bundledLanguagesInfo,
-  createHighlighterCore,
-} from 'shiki';
+import { codeToHast } from 'shiki';
 import { unified } from 'unified';
 
-import { normalizeGetter } from '../../code-block/code-block-service.js';
-import {
-  CODE_BLOCK_DEFAULT_DARK_THEME,
-  CODE_BLOCK_DEFAULT_LIGHT_THEME,
-} from '../../code-block/highlight/const.js';
 import {
   type HtmlAST,
   hastFlatNodes,
@@ -142,88 +133,6 @@ export class HtmlAdapter extends BaseAdapter<Html> {
       }
       return hast;
     });
-  };
-
-  private _deltaToHighlightHasts = async (
-    deltas: DeltaInsert[],
-    rawLang: unknown
-  ) => {
-    deltas = deltas.reduce((acc, cur) => {
-      return mergeDeltas(acc, cur, { force: true });
-    }, [] as DeltaInsert<object>[]);
-    if (!deltas.length) {
-      return [
-        {
-          type: 'element',
-          tagName: 'span',
-          children: [
-            {
-              type: 'text',
-              value: '',
-            },
-          ],
-        },
-      ] as ElementContent[];
-    }
-
-    const delta = deltas[0];
-    if (typeof rawLang == 'string') {
-      rawLang = rawLang.toLowerCase();
-    }
-    if (
-      !rawLang ||
-      typeof rawLang !== 'string' ||
-      // The rawLang should not be 'Text' here
-      rawLang === 'Text' ||
-      !bundledLanguagesInfo.map(({ id }) => id).includes(rawLang as string)
-    ) {
-      return [
-        {
-          type: 'text',
-          value: delta.insert,
-        } as Text,
-      ];
-    }
-    const lang = rawLang as BundledLanguage;
-
-    const highlighter = await createHighlighterCore();
-    await highlighter.loadLanguage(import(`shiki/languages/${lang}.json`));
-    const theme =
-      ThemeObserver.instance.mode$.value === ColorScheme.Dark
-        ? CODE_BLOCK_DEFAULT_DARK_THEME
-        : CODE_BLOCK_DEFAULT_LIGHT_THEME;
-    await highlighter.loadTheme(theme);
-    const themeKey = (await normalizeGetter(theme)).name;
-
-    const code = deltas.reduce((acc, cur) => {
-      return acc + cur.insert;
-    }, '');
-    const tokens = highlighter.codeToTokensBase(code, {
-      lang,
-      theme: themeKey,
-    });
-
-    return tokens.map(lineTokens => {
-      return {
-        type: 'element',
-        tagName: 'span',
-        children: lineTokens.map(token => {
-          return {
-            type: 'element',
-            tagName: 'span',
-            properties: {
-              style: `color: ${token.color};`,
-            },
-            children: [
-              {
-                type: 'text',
-                value: token.content,
-              },
-            ],
-          } as ElementContent;
-        }),
-      };
-    }) as ElementContent[];
   };
 
   private _hastToDelta = (
@@ -881,35 +790,20 @@ export class HtmlAdapter extends BaseAdapter<Html> {
           break;
         }
         case 'affine:code': {
-          if (typeof o.node.props.language == 'string') {
-            o.node.props.language = o.node.props.language.toLowerCase();
-          }
-          context
-            .openNode(
-              {
-                type: 'element',
-                tagName: 'pre',
-                properties: {},
-                children: [],
-              },
-              'children'
-            )
-            .openNode(
-              {
-                type: 'element',
-                tagName: 'code',
-                properties: {
-                  className: [`code-${o.node.props.language}`],
-                },
-                children: await this._deltaToHighlightHasts(
-                  text.delta,
-                  o.node.props.language
-                ),
-              },
-              'children'
-            )
-            .closeNode()
-            .closeNode();
+          const lang = o.node.props.language as string | null;
+          // @ts-ignore
+          const text = o.node.props.text.delta as DeltaInsert[];
+          const code = text.map(delta => delta.insert).join('');
+          const hast = await codeToHast(code, {
+            lang: lang ?? 'Plain Text',
+            theme:
+              ThemeObserver.mode === ColorScheme.Dark
+                ? 'dark-plus'
+                : 'light-plus',
+          });
+
+          // @ts-ignore
+          context.openNode(hast, 'children').closeNode();
           break;
         }
         case 'affine:paragraph': {
