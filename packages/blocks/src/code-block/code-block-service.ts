@@ -50,6 +50,10 @@ export class CodeBlockService<
         await highlighter.loadTheme(darkTheme, lightTheme);
 
         this.highlighter$.value = highlighter;
+
+        this.disposables.add(() => {
+          highlighter.dispose();
+        });
       })
       .catch(console.error);
   }

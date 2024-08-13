@@ -334,7 +334,7 @@ test('change code language can work', async ({ page }) => {
 
   // Can switch to another language
   await codeBlockController.clickLanguageButton();
-  await type(page, 'ts');
+  await type(page, 'ty');
   await pressEnter(page);
   await expect(locator).toBeHidden();
   await expect(codeBlockController.languageButton).toHaveText('TypeScript');

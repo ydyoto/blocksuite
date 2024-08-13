@@ -48,7 +48,9 @@ export class LanguageListButton extends SignalWatcher(LitElement) {
           sortedBundledLanguages.splice(index, 1);
           sortedBundledLanguages.unshift(item);
         }
-        this.blockComponent.model.language$.value = item.name;
+        this.blockComponent.doc.transact(() => {
+          this.blockComponent.model.language$.value = item.name;
+        });
       },
       active: item => item.name === this.blockComponent.model.language,
       items: sortedBundledLanguages,
