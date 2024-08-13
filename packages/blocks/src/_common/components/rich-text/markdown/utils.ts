@@ -4,8 +4,8 @@ import type { BlockComponent } from '@blocksuite/block-std';
 import {
   asyncFocusRichText,
   getInlineEditorByModel,
-  matchFlavours,
-} from '../../../../_common/utils/index.js';
+} from '@blocksuite/affine-components/rich-text';
+import { matchFlavours } from '@blocksuite/affine-shared/utils';
 
 function addSpace(element: BlockComponent, index: number) {
   element.model.text?.insert(' ', index);

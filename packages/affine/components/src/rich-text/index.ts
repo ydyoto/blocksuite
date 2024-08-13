@@ -3,11 +3,18 @@ import './rich-text.js';
 import './format/index.js';
 
 export {
+  asyncFocusRichText,
+  asyncGetRichText,
+  asyncSetInlineRange,
+  getInlineEditorByModel,
+  getRichTextByModel,
+} from './dom.js';
+export {
   FORMAT_BLOCK_SUPPORT_FLAVOURS,
   FORMAT_NATIVE_SUPPORT_FLAVOURS,
   FORMAT_TEXT_SUPPORT_FLAVOURS,
   isFormatSupported,
-  registerTextStyleCommands,
+  textCommands,
   textFormatConfigs,
 } from './format/index.js';
 export {
