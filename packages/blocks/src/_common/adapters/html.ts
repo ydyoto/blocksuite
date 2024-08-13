@@ -31,7 +31,7 @@ import { ASTWalker, BaseAdapter } from '@blocksuite/store';
 import { collapseWhiteSpace } from 'collapse-white-space';
 import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
-import { codeToHast } from 'shiki';
+import { bundledLanguagesInfo, codeToHast } from 'shiki';
 import { unified } from 'unified';
 
 import {
@@ -790,12 +790,21 @@ export class HtmlAdapter extends BaseAdapter<Html> {
           break;
         }
         case 'affine:code': {
-          const lang = o.node.props.language as string | null;
+          const rawLang = o.node.props.language as string | null;
+          const matchedLang = rawLang
+            ? (bundledLanguagesInfo.find(
+                info =>
+                  info.id === rawLang ||
+                  info.name === rawLang ||
+                  info.aliases?.includes(rawLang)
+              )?.id ?? 'text')
+            : 'text';
+
           // @ts-ignore
           const text = o.node.props.text.delta as DeltaInsert[];
           const code = text.map(delta => delta.insert).join('');
           const hast = await codeToHast(code, {
-            lang: lang ?? 'Plain Text',
+            lang: matchedLang,
             theme:
               ThemeObserver.mode === ColorScheme.Dark
                 ? 'dark-plus'
