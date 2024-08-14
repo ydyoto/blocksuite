@@ -332,20 +332,23 @@ export class LinkPopup extends WithDisposable(LitElement) {
       [
         {
           name: 'Open',
+          type: 'open',
           icon: OpenIcon,
-          handler: this._openLink,
+          action: this._openLink,
         },
 
         {
           name: 'Copy',
+          type: 'copy',
           icon: CopyIcon,
-          handler: this._copyUrl,
+          action: this._copyUrl,
         },
 
         {
           name: 'Remove link',
+          type: 'remove-link',
           icon: UnlinkIcon,
-          handler: this._removeLink,
+          action: this._removeLink,
         },
       ],
 
@@ -354,7 +357,7 @@ export class LinkPopup extends WithDisposable(LitElement) {
           type: 'delete',
           name: 'Delete',
           icon: DeleteIcon,
-          handler: this._delete,
+          action: this._delete,
         },
       ],
     ]);

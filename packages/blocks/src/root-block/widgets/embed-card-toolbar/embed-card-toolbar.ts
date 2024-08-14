@@ -17,7 +17,7 @@ import {
 import { isPeekable, peek } from '@blocksuite/affine-components/peek';
 import { toast } from '@blocksuite/affine-components/toast';
 import {
-  type Action,
+  type MenuItem,
   renderActions,
   renderToolbarSeparator,
 } from '@blocksuite/affine-components/toolbar';
@@ -358,7 +358,7 @@ export class EmbedCardToolbar extends WidgetComponent<
           name: 'Copy',
           icon: CopyIcon,
           disabled: this.doc.readonly,
-          handler: () => {
+          action: () => {
             this._copyBlock().catch(console.error);
           },
         },
@@ -367,7 +367,7 @@ export class EmbedCardToolbar extends WidgetComponent<
           name: 'Duplicate',
           icon: DuplicateIcon,
           disabled: this.doc.readonly,
-          handler: () => this._duplicateBlock(),
+          action: () => this._duplicateBlock(),
         },
 
         this._focusModel && this._refreshable(this._focusModel)
@@ -376,7 +376,7 @@ export class EmbedCardToolbar extends WidgetComponent<
               name: 'Reload',
               icon: RefreshIcon,
               disabled: this.doc.readonly,
-              handler: () => this._refreshData(),
+              action: () => this._refreshData(),
             }
           : nothing,
       ],
@@ -386,7 +386,7 @@ export class EmbedCardToolbar extends WidgetComponent<
           name: 'Delete',
           icon: DeleteIcon,
           disabled: this.doc.readonly,
-          handler: () =>
+          action: () =>
             this._focusModel && this.doc.deleteBlock(this._focusModel),
         },
       ],
@@ -402,7 +402,7 @@ export class EmbedCardToolbar extends WidgetComponent<
   }
 
   private _openMenuButton() {
-    const buttons: Action[] = [];
+    const buttons: MenuItem[] = [];
 
     if (
       this._focusModel &&
@@ -412,7 +412,7 @@ export class EmbedCardToolbar extends WidgetComponent<
       buttons.push({
         name: 'Open this doc',
         icon: ExpandFullSmallIcon,
-        handler: () => this._focusBlock?.open(),
+        action: () => this._focusBlock?.open(),
       });
     }
 
@@ -423,7 +423,7 @@ export class EmbedCardToolbar extends WidgetComponent<
       buttons.push({
         name: 'Open in center peek',
         icon: CenterPeekIcon,
-        handler: () => peek(element),
+        action: () => peek(element),
       });
     }
 
@@ -450,11 +450,11 @@ export class EmbedCardToolbar extends WidgetComponent<
           ${repeat(
             buttons,
             button => button.name,
-            ({ name, icon, handler, disabled }) => html`
+            ({ name, icon, action, disabled }) => html`
               <editor-menu-action
                 aria-label=${name}
                 ?disabled=${disabled}
-                @click=${handler}
+                @click=${action}
               >
                 ${icon}<span class="label">${name}</span>
               </editor-menu-action>
@@ -570,14 +570,14 @@ export class EmbedCardToolbar extends WidgetComponent<
     buttons.push({
       type: 'inline',
       name: 'Inline view',
-      handler: () => this._turnIntoInlineView(),
+      action: () => this._turnIntoInlineView(),
       disabled: this.doc.readonly,
     });
 
     buttons.push({
       type: 'card',
       name: 'Card view',
-      handler: () => this._convertToCardView(),
+      action: () => this._convertToCardView(),
       disabled: this.doc.readonly,
     });
 
@@ -585,7 +585,7 @@ export class EmbedCardToolbar extends WidgetComponent<
       buttons.push({
         type: 'embed',
         name: 'Embed view',
-        handler: () => this._convertToEmbedView(),
+        action: () => this._convertToEmbedView(),
         disabled: this.doc.readonly && this._embedViewButtonDisabled,
       });
     }
@@ -612,13 +612,13 @@ export class EmbedCardToolbar extends WidgetComponent<
           ${repeat(
             buttons,
             button => button.type,
-            ({ type, name, handler, disabled }) => html`
+            ({ type, name, action, disabled }) => html`
               <editor-menu-action
                 aria-label=${name}
                 data-testid=${`link-to-${type}`}
                 ?data-selected=${this._viewType === type}
                 ?disabled=${disabled}
-                @click=${handler}
+                @click=${action}
               >
                 ${name}
               </editor-menu-action>

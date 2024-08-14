@@ -54,7 +54,7 @@ export function AttachmentOptionsTemplate({
       type: 'card',
       name: 'Card view',
       disabled: readonly || !model.embed,
-      handler: () => {
+      action: () => {
         model.doc.updateBlock(model, { embed: false });
         abortController.abort();
       },
@@ -63,7 +63,7 @@ export function AttachmentOptionsTemplate({
       type: 'embed',
       name: 'Embed view',
       disabled: readonly || disableEmbed,
-      handler: () => {
+      action: () => {
         convertToEmbed(model, anchor.service.maxFileSize);
         abortController.abort();
       },
@@ -77,14 +77,14 @@ export function AttachmentOptionsTemplate({
         name: 'Copy',
         icon: CopyIcon,
         disabled: readonly,
-        handler: copy,
+        action: copy,
       },
       {
         type: 'duplicate',
         name: 'Duplicate',
         icon: DuplicateIcon,
         disabled: readonly,
-        handler: () => {
+        action: () => {
           const prop: { flavour: 'affine:attachment' } = {
             flavour: 'affine:attachment',
             ...cloneAttachmentProperties(model),
@@ -97,14 +97,14 @@ export function AttachmentOptionsTemplate({
         name: 'Reload',
         icon: RefreshIcon,
         disabled: readonly,
-        handler: refresh,
+        action: refresh,
       },
       {
         type: 'download',
         name: 'Download',
         icon: DownloadIcon,
         disabled: readonly,
-        handler: download,
+        action: download,
       },
     ],
     [
@@ -113,7 +113,7 @@ export function AttachmentOptionsTemplate({
         name: 'Delete',
         icon: DeleteIcon,
         disabled: readonly,
-        handler: () => {
+        action: () => {
           model.doc.deleteBlock(model);
           abortController.abort();
         },
@@ -181,11 +181,11 @@ export function AttachmentOptionsTemplate({
           ${repeat(
             viewActions,
             button => button.type,
-            ({ type, name, handler }) => html`
+            ({ type, name, action }) => html`
               <editor-menu-action
                 data-testid=${`link-to-${type}`}
                 ?data-selected=${type === viewType}
-                @click=${handler}
+                @click=${action}
               >
                 ${name}
               </editor-menu-action>

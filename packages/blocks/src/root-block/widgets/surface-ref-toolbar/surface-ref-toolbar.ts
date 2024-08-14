@@ -15,7 +15,7 @@ import {
 import { isPeekable, peek } from '@blocksuite/affine-components/peek';
 import { toast } from '@blocksuite/affine-components/toast';
 import {
-  type Action,
+  type MenuItem,
   renderActions,
   renderToolbarSeparator,
 } from '@blocksuite/affine-components/toolbar';
@@ -114,12 +114,12 @@ function SurfaceRefToolbarOptions(options: {
   const readonly = model.doc.readonly;
   const hasValidReference = !!block.referenceModel;
 
-  const openMenuActions: Action[] = [];
+  const openMenuActions: MenuItem[] = [];
   if (hasValidReference) {
     openMenuActions.push({
       name: 'Open in edgeless',
       icon: EdgelessModeIcon,
-      handler: () => block.viewInEdgeless(),
+      action: () => block.viewInEdgeless(),
       disabled: readonly,
     });
 
@@ -127,19 +127,19 @@ function SurfaceRefToolbarOptions(options: {
       openMenuActions.push({
         name: 'Open in center peek',
         icon: CenterPeekIcon,
-        handler: () => peek(block),
+        action: () => peek(block),
       });
     }
   }
 
-  const moreMenuActions: Action[][] = [
+  const moreMenuActions: MenuItem[][] = [
     hasValidReference
       ? [
           {
             type: 'copy',
             name: 'Copy',
             icon: CopyIcon,
-            handler: () => {
+            action: () => {
               if (!block.referenceModel || !block.doc.root) return;
 
               const editor = block.previewEditor;
@@ -171,7 +171,7 @@ function SurfaceRefToolbarOptions(options: {
             type: 'download',
             name: 'Download',
             icon: DownloadIcon,
-            handler: () => {
+            action: () => {
               if (!block.referenceModel || !block.doc.root) return;
 
               const referencedModel = block.referenceModel;
@@ -210,7 +210,7 @@ function SurfaceRefToolbarOptions(options: {
         name: 'Delete',
         icon: DeleteIcon,
         disabled: readonly,
-        handler: () => {
+        action: () => {
           model.doc.deleteBlock(model);
           abortController.abort();
         },
@@ -237,11 +237,11 @@ function SurfaceRefToolbarOptions(options: {
               ${repeat(
                 openMenuActions,
                 button => button.name,
-                ({ name, icon, handler, disabled }) => html`
+                ({ name, icon, action, disabled }) => html`
                   <editor-menu-action
                     aria-label=${name}
                     ?disabled=${disabled}
-                    @click=${handler}
+                    @click=${action}
                   >
                     ${icon}<span class="label">${name}</span>
                   </editor-menu-action>

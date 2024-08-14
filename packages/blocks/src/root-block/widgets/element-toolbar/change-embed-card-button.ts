@@ -22,7 +22,7 @@ import {
 import { isPeekable, peek } from '@blocksuite/affine-components/peek';
 import { toast } from '@blocksuite/affine-components/toast';
 import {
-  type Action,
+  type MenuItem,
   renderToolbarSeparator,
 } from '@blocksuite/affine-components/toolbar';
 import { BookmarkStyles } from '@blocksuite/affine-model';
@@ -363,7 +363,7 @@ export class EdgelessChangeEmbedCardButton extends WithDisposable(LitElement) {
   }
 
   private _openMenuButton() {
-    const buttons: Action[] = [];
+    const buttons: MenuItem[] = [];
 
     if (
       isEmbedLinkedDocBlock(this.model) ||
@@ -372,14 +372,14 @@ export class EdgelessChangeEmbedCardButton extends WithDisposable(LitElement) {
       buttons.push({
         name: 'Open this doc',
         icon: ExpandFullSmallIcon,
-        handler: this._open,
+        action: this._open,
         disabled: this._openButtonDisabled,
       });
     } else if (this._canShowFullScreenButton) {
       buttons.push({
         name: 'Open this doc',
         icon: ExpandFullSmallIcon,
-        handler: this._open,
+        action: this._open,
       });
     }
 
@@ -389,7 +389,7 @@ export class EdgelessChangeEmbedCardButton extends WithDisposable(LitElement) {
       buttons.push({
         name: 'Open in center peek',
         icon: CenterPeekIcon,
-        handler: () => this._peek(),
+        action: () => this._peek(),
       });
     }
 
@@ -416,11 +416,11 @@ export class EdgelessChangeEmbedCardButton extends WithDisposable(LitElement) {
           ${repeat(
             buttons,
             button => button.name,
-            ({ name, icon, handler, disabled }) => html`
+            ({ name, icon, action, disabled }) => html`
               <editor-menu-action
                 aria-label=${name}
                 ?disabled=${disabled}
-                @click=${handler}
+                @click=${action}
               >
                 ${icon}<span class="label">${name}</span>
               </editor-menu-action>

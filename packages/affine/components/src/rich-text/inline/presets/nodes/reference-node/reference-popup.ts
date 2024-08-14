@@ -25,7 +25,7 @@ import {
 } from '../../../../../icons/index.js';
 import { isPeekable, peek } from '../../../../../peek/index.js';
 import {
-  type Action,
+  type MenuItem,
   renderActions,
   renderToolbarSeparator,
 } from '../../../../../toolbar/index.js';
@@ -119,7 +119,7 @@ export class ReferencePopup extends WithDisposable(LitElement) {
           name: 'Delete',
           icon: DeleteIcon,
           disabled: this.doc.readonly,
-          handler: () => this._delete(),
+          action: () => this._delete(),
         },
       ],
     ]);
@@ -145,11 +145,12 @@ export class ReferencePopup extends WithDisposable(LitElement) {
   }
 
   private _openMenuButton() {
-    const buttons: Action[] = [
+    const buttons: MenuItem[] = [
       {
         name: 'Open this doc',
+        type: 'open-this-doc',
         icon: ExpandFullSmallIcon,
-        handler: () => this._openDoc(),
+        action: () => this._openDoc(),
         disabled: this._openButtonDisabled,
       },
     ];
@@ -159,8 +160,9 @@ export class ReferencePopup extends WithDisposable(LitElement) {
     if (isPeekable(this.target)) {
       buttons.push({
         name: 'Open in center peek',
+        type: 'open-in-center-peek',
         icon: CenterPeekIcon,
-        handler: () => peek(this.target),
+        action: () => peek(this.target),
       });
     }
 
@@ -187,11 +189,11 @@ export class ReferencePopup extends WithDisposable(LitElement) {
           ${repeat(
             buttons,
             button => button.name,
-            ({ name, icon, handler, disabled }) => html`
+            ({ name, icon, action, disabled }) => html`
               <editor-menu-action
                 aria-label=${name}
                 ?disabled=${disabled}
-                @click=${handler}
+                @click=${action}
               >
                 ${icon}<span class="label">${name}</span>
               </editor-menu-action>
