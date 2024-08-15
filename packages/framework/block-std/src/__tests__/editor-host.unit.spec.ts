@@ -31,7 +31,7 @@ describe('editor host', () => {
     const rootId = doc.addBlock('test:page');
     const noteId = doc.addBlock('test:note', {}, rootId);
     const headingId = doc.addBlock('test:heading', { type: 'h1' }, noteId);
-    const headingBlock = doc.getBlock(headingId);
+    const headingBlock = doc.getBlock(headingId)!;
 
     const editorContainer = new TestEditorContainer();
     editorContainer.doc = doc;
