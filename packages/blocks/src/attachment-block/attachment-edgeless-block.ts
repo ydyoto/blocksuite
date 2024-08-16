@@ -62,8 +62,6 @@ export class AttachmentEdgelessBlockComponent extends toGfxBlockComponent(
       transformOrigin: '0 0',
     });
 
-    console.log(this._whenHover);
-
     return this.renderPageContent();
   }
 

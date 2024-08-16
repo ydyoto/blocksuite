@@ -12,7 +12,7 @@ import { ThemeObserver } from '@blocksuite/affine-shared/theme';
 import { humanFileSize } from '@blocksuite/affine-shared/utils';
 import { Slice } from '@blocksuite/store';
 import { flip, offset } from '@floating-ui/dom';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ref } from 'lit/directives/ref.js';
@@ -212,7 +212,7 @@ export class AttachmentBlockComponent extends CaptionedBlockComponent<
 
     return html`
       <div
-        ${ref(this._whenHover?.setReference)}
+        ${this._whenHover ? ref(this._whenHover.setReference) : nothing}
         class="affine-attachment-container"
         style=${this.containerStyleMap}
       >
