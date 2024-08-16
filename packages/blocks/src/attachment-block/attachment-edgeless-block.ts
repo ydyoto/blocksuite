@@ -80,6 +80,6 @@ export class AttachmentEdgelessBlockComponent extends toGfxBlockComponent(
 
 declare global {
   interface HTMLElementTagNameMap {
-    'affine-edgeless-attachment': AttachmentBlockComponent;
+    'affine-edgeless-attachment': AttachmentEdgelessBlockComponent;
   }
 }
